@@ -1,0 +1,9 @@
+load("@io_bazel_rules_docker//docker/util:run.bzl", "container_run_and_commit")
+
+container_run_and_commit(
+    name = "ubuntu",
+    commands = [
+        """getent group 100 | { IFS=: read group _ gid; groupdel $group; }""",
+    ],
+    image = "@ubuntu//image:image.tar",
+)

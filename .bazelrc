@@ -1,0 +1,14 @@
+build --strategy=RunAndCommitLayer=local --strategy=RunAndCommit=local
+build --incompatible_strict_action_env
+build --show_result=20
+
+build --spawn_strategy=local
+
+build --toolchain_resolution_debug=@io_bazel_rules_docker//toolchains/docker:toolchain_type
+build --verbose_failures --sandbox_debug
+
+test --test_output=errors
+
+common --announce_rc
+
+--loading_phase_threads=1  # because @rules_docker sucks

@@ -1,0 +1,42 @@
+load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_layer")
+load("@io_bazel_rules_docker//docker/util:run.bzl", "container_run_and_commit_layer")
+
+container_run_and_commit_layer(
+    name = "user",
+    commands = [
+        """getent group 100 | { IFS=: read group _ gid; userdel games; groupdel $group; }""",
+    ],
+    image = "@centos//image:image.tar",
+)
+
+container_run_and_commit_layer(
+    name = "yum.repos.d",
+    commands = [
+        """rm -r /etc/yum.repos.d""",
+    ],
+    image = "@centos//image:image.tar",
+)
+
+container_layer(
+    name = "etc",
+    directory = "/etc",
+    files = glob(["etc/**"]),
+)
+
+container_run_and_commit_layer(
+    name = "yum",
+    commands = [
+        """yum install -y /usr/bin/rpmbuild /usr/bin/python3 && yum clean all""",
+    ],
+    image = "@centos//image:image.tar",
+)
+
+container_image(
+    name = "centos",
+    base = "@centos//image:image.tar",
+    layers = [
+        ":yum.repos.d",
+        ":etc",
+        ":yum",
+    ],
+)
