@@ -1,0 +1,5 @@
+/.ijwb
+/bazel-bin
+/bazel-bz-docker
+/bazel-out
+/bazel-testlogs
