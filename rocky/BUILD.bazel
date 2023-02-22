@@ -4,7 +4,7 @@ load("@io_bazel_rules_docker//docker/util:run.bzl", "container_run_and_commit_la
 container_run_and_commit_layer(
     name = "user",
     commands = [
-        """getent group 100 | { IFS=: read group _ gid; userdel games; groupdel $group; }""",
+        """groupmod -g 101 users""",
     ],
     image = "@rockylinux//image:image.tar",
 )

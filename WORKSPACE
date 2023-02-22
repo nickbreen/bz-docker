@@ -10,7 +10,7 @@ load("@io_bazel_rules_docker//toolchains/docker:toolchain.bzl", docker_toolchain
 
 docker_toolchain_configure(
     name = "docker_config",
-    docker_path = "/snap/bin/docker",
+    docker_path = "/usr/bin/podman",
     gzip_path = "/usr/bin/gzip",
     xz_path = "/usr/bin/xz",
 )
